@@ -3,113 +3,95 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leonida Platinum Desk — GTA 6 Trophy Guide &amp; Tracker</title>
-<meta name="description" content="An offline guide and tracker for all 55 official GTA 6 PlayStation 5 trophies: cited guides, a platinum roadmap, missable flags, saved progress and a spoiler setting.">
+<title>Leonida Platinum Desk — GTA 6 trophy guide &amp; tracker</title>
+<meta name="description" content="An offline guide and tracker for all 55 Grand Theft Auto VI trophies on PlayStation 5: roadmap to the platinum, missable flags, cited guides, and a checklist that saves in your browser.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="top">
-  <div class="brand">
-    <div class="mark" aria-hidden="true">LP</div>
-    <div>
-      <h1>Leonida Platinum Desk</h1>
-      <p class="tag">An offline GTA 6 trophy guide &amp; tracker — all 55 official PS5 trophies.</p>
-    </div>
+<noscript><p style="max-width:1080px;margin:20px auto;padding:0 20px">Leonida Platinum Desk needs JavaScript: the checklist, filters and progress saving all run in your browser. Turn JavaScript on and reload — nothing is fetched from the network either way.</p></noscript>
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="kicker">Grand Theft Auto VI &middot; PlayStation 5 &middot; 55 trophies</p>
+    <h1>Leonida Platinum Desk</h1>
+    <p class="tagline">Every trophy, its official description and grade, a guide in our own words with its sources beside it, and a checklist that remembers what you have earned — all offline.</p>
   </div>
-  <div class="progress" id="progressBox" aria-live="polite">
-    <div class="big"><span id="earnedCount">0</span><span class="of"> / 55 earned</span></div>
-    <div class="bar"><div class="fill" id="progressFill" style="width:0%"></div></div>
-    <div class="pct"><span id="pctText">0% to platinum</span> · <span id="gradeCounts"></span></div>
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-numbers"><span id="progressText">0 of 55 earned</span><span id="progressPct">0%</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <p class="progress-by-grade" id="progressByGrade"></p>
   </div>
 </header>
 
-<nav class="tabs" aria-label="Sections">
-  <a href="#/tracker" data-view="tracker">Tracker</a>
-  <a href="#/roadmap" data-view="roadmap">Roadmap</a>
-  <a href="#/missables" data-view="missables">Missables <span class="pill" id="missCount"></span></a>
-  <a href="#/nextup" data-view="nextup">Next up</a>
+<nav class="tabs" aria-label="Views">
+  <a href="#/" data-view="list" id="tab-list">Checklist</a>
+  <a href="#/roadmap" data-view="roadmap" id="tab-roadmap">Roadmap to platinum</a>
+  <a href="#/missables" data-view="missables" id="tab-missables">Missables <span class="count-badge" id="missableCount"></span></a>
 </nav>
 
-<section class="honesty">
-  <strong>How this guide is built.</strong>
-  Trophy names, descriptions and grades are the official PS5 list (Exophase, frozen 18 Nov 2026; PSNProfiles agrees on every name, description and grade). Every guide is written in our own words from those official descriptions only — no locations or steps are invented, and anything we could not verify in the game is labelled as not yet checked in the game. Missable flags are cautious inferences from the official descriptions, honestly labelled. <button id="aboutSources" type="button">About our sources</button>
-</section>
-
 <main>
-  <!-- TRACKER -->
-  <section id="view-tracker" class="view">
+  <section id="view-list" class="view">
     <div class="controls">
-      <label class="search">Search <input id="q" type="search" placeholder="Search names and descriptions…" autocomplete="off"></label>
-      <label>Grade
+      <label class="search-label">Search <input id="search" type="search" placeholder="Trophy, mission or keyword…" autocomplete="off"></label>
+      <label class="spoiler-label"><input id="spoilers" type="checkbox" checked> Hide story spoilers</label>
+      <label class="grade-label">Grade
         <select id="grade">
-          <option value="all">All grades</option><option value="platinum">Platinum</option>
-          <option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option>
+          <option value="all">All grades</option>
+          <option value="platinum">Platinum</option>
+          <option value="gold">Gold</option>
+          <option value="silver">Silver</option>
+          <option value="bronze">Bronze</option>
         </select>
       </label>
-      <label>Kind
-        <select id="kind">
-          <option value="all">All kinds</option><option value="story">Story</option>
-          <option value="missable">Missable (flagged)</option><option value="collectibles">Collectibles</option>
-          <option value="activities">Activities</option><option value="world">World &amp; free roam</option>
+      <label class="state-label">Show
+        <select id="state">
+          <option value="all">All trophies</option>
+          <option value="remaining">Still to earn</option>
+          <option value="earned">Earned</option>
         </select>
       </label>
-      <label>Status
-        <select id="status">
-          <option value="all">Earned &amp; unearned</option><option value="unearned">Unearned only</option><option value="earned">Earned only</option>
-        </select>
-      </label>
-      <label class="check"><input id="spoilers" type="checkbox"> Hide story spoilers</label>
-      <span class="spacer"></span>
-      <button id="exportBtn" type="button">Export progress</button>
-      <label class="importBtn">Import progress <input id="importFile" type="file" accept="application/json,.json"></label>
-      <button id="resetBtn" type="button" class="quiet">Reset</button>
+      <button id="export" type="button">Export progress</button>
+      <label class="import-label">Import progress <input id="import" type="file" accept="application/json,.json"></label>
+      <button id="reset" type="button" class="quiet">Reset</button>
     </div>
-    <p class="hint" id="filterHint"></p>
-    <div class="split">
-      <div class="listWrap">
-        <ul id="trophyList" class="trophyList"></ul>
-        <p id="emptyMsg" class="empty" hidden>No trophies match these filters. Clear the search or widen the filters.</p>
-      </div>
-      <aside class="detail" id="detail" aria-live="polite">
-        <p class="detailEmpty">Select a trophy on the left to open its full guide — what to do, when in the story, and whether it can be missed — with its sources.</p>
-      </aside>
-    </div>
+
+    <div class="kinds" id="kinds" role="group" aria-label="Filter by kind"></div>
+
+    <aside class="nextup" id="nextup" aria-label="Next up"></aside>
+
+    <p class="result-count" id="resultCount"></p>
+    <div id="cards" class="cards"></div>
+    <p class="empty" id="empty" hidden>No trophies match these filters. Clear the search or pick another kind.</p>
   </section>
 
-  <!-- ROADMAP -->
   <section id="view-roadmap" class="view" hidden>
     <h2>Roadmap to the platinum</h2>
-    <p class="lede">The order to earn them in, built from the official descriptions. Story first, then the stranger strands, then activities, then collectibles and exploration, then money and mop-up — the final mission and 100% completion close the road.</p>
-    <div id="roadmapStages"></div>
+    <p class="lede">Five stages, in order, built from the official descriptions: which story chapters and missions, which side strands, which collectibles and counts. About 200 hours for the platinum, by PowerPyx's estimate — long, not hard.</p>
+    <ol class="stages" id="stages"></ol>
+    <p class="save-note"><strong>Save advice:</strong> GTA 6 has no mission replay and no New Game Plus (per Outputlag's launch guide), so keep a manual save at the start of every chapter and one before the final mission.</p>
   </section>
 
-  <!-- MISSABLES -->
   <section id="view-missables" class="view" hidden>
-    <h2>Missable trophies — flagged with care</h2>
-    <p class="lede">The official descriptions alone support only a few cautious flags. Each one below quotes the description it is inferred from and says plainly that it is <strong>not yet verified in the game</strong>. Everything else on this desk is safe to leave until later — story missions are replayed in story order and collectibles stay in the world.</p>
-    <div id="missableList"></div>
-  </section>
-
-  <!-- NEXT UP -->
-  <section id="view-nextup" class="view" hidden>
-    <h2>Next up — your planner</h2>
-    <p class="lede">The nearest unearned trophies first: earliest roadmap stage, then the smallest amount of counter left to finish. Tick one off and the planner re-sorts itself.</p>
-    <ol id="nextList" class="nextList"></ol>
+    <h2>Missable trophies</h2>
+    <p class="lede">Only one trophy in the list is reported as possibly missable. The rest stay earnable after the credits — but with no mission replay, a manual save at each chapter start is cheap insurance.</p>
+    <div id="missableCards" class="cards"></div>
+    <aside class="warnings">
+      <h3>Three warnings for a trophy run</h3>
+      <ul>
+        <li><strong>Cheats switch trophies off.</strong> GTABase and PowerPyx report that turning on a cheat disables trophies and saving — keep cheats off on your trophy save.</li>
+        <li><strong>No mission replay.</strong> Outputlag's launch guide reports there is no mission replay and no New Game Plus. Keep a manual save at the start of every chapter and one before the final mission.</li>
+        <li><strong>No online trophies.</strong> All 55 are single-player and offline, so nothing here needs another player.</li>
+      </ul>
+    </aside>
   </section>
 </main>
 
 <footer>
-  <p>Leonida Platinum Desk — an unofficial fan-made guide. Grand Theft Auto and GTA are trademarks of Take-Two Interactive; this guide uses no Rockstar logos, artwork or game screenshots. Trophy names, descriptions and grades are shown as PlayStation publishes them. Data: the official list on Exophase (names, descriptions, grades) and PSNProfiles (PSN progress targets). Progress is saved only in this browser (localStorage) and never leaves your device. Works fully offline.</p>
-  <p id="demoNote" hidden>Demo progress is loaded (sample ticks for preview). Clear it with Reset.</p>
+  <h2>Where the facts come from</h2>
+  <p>Names, descriptions, grades and counts are the official list as PlayStation publishes it, via Exophase and PSNProfiles, as carried in the kit starter and cross-checked by PlanetGTA6 (18 Nov 2026). Every guide on this page is written in our own words for this entry. Where the game had only just launched (19 Nov 2026) and no guide had confirmed a method, the guide says so instead of inventing a location or a step. Further reading:</p>
+  <ul id="furtherReading" class="sources-list"></ul>
+  <p class="fineprint">Leonida Platinum Desk is an unofficial fan-made guide. Grand Theft Auto, GTA and Rockstar Games are trademarks of their owners; no official artwork or logo is used here. Your progress is stored only in this browser (localStorage) and never leaves it except when you export it yourself. Demo mode: add <code>?demo=1</code> to the address to preview the guide with a sample of earned trophies.</p>
+  <p class="fineprint">Entered on <a href="https://make.fun/?ref=aes5np1n&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=gta6-trophy-guide-01">make.fun</a></p>
 </footer>
-
-<dialog id="sourcesDialog">
-  <h2>About our sources</h2>
-  <p>Every trophy's name, description and grade comes from the official PS5 trophy list as published on Exophase, frozen on 18 November 2026. PSNProfiles was checked against the same list and agrees on every name, description and grade; where PSN tracks a count (for example 42 Shooting Range challenges or 250 stunts), that count is shown as the trophy's progress target.</p>
-  <p>Each guide is written in our own words from the official description alone. We do not invent locations, steps or trophy names, and we do not copy other guides. Where a guide gives advice beyond the description, it says so and labels it as not yet checked in the game. Missable flags are cautious inferences from the wording of the official descriptions — for example a choice-driven or second-attempt description — and are labelled as inferred, not verified.</p>
-  <p>Because the game had not yet been played for this guide, no gameplay claim here is presented as verified in the game. That honesty is deliberate: a cited, cautious guide beats a detailed but uncited one.</p>
-  <form method="dialog"><button>Close</button></form>
-</dialog>
 
 <script type="module" src="app.js"></script>
 </body>
